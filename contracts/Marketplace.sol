@@ -45,6 +45,15 @@ contract Marketplace {
         return count;
     }
 
+    function loadFeed(uint _numberOfItems) public view returns(uint[] memory) {
+        uint[] memory feed;
+        if (_numberOfItems > counter) {
+            for (uint i=0; i<counter; ++i) {
+                feed[i] = i;
+            } 
+        } 
+    }
+
     function searchBySeller(address _addr) public view returns(uint[] memory) {
         return sellers[_addr].items;
     } 
