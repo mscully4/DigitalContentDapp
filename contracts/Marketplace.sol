@@ -6,7 +6,7 @@ contract Marketplace {
         uint id;
         address uploader;
         string name;
-
+        string hash;
     }
 
     struct seller {
@@ -25,9 +25,9 @@ contract Marketplace {
     mapping(uint => item) public items;
     mapping(address => seller) public sellers;
 
-    function add(string memory _name) public {
+    function add(string memory _name, string memory _hash) public {
         counter++;
-        items[counter] = item(counter, msg.sender, _name);
+        items[counter] = item(counter, msg.sender, _name, _hash);
         if (sellers[msg.sender].init) {
         
         } else {

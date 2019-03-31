@@ -31,7 +31,10 @@
         <!-- PETS LOAD HERE -->
       </div>
     </div>
-
+    <div>
+        <img id="upload-preview" src="" height="200" alt="Image preview...">
+        <input type="file" onchange="App.uploadImage()"/><br>
+    </div>
     <div id="itemTemplate" style="display:none;">
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="panel panel-default panel-pet">
@@ -39,10 +42,11 @@
             <h3 class="panel-title"></h3>
           </div>
           <div class="panel-body">
-            <img alt="140x140" data-src="holder.js/140x140" class="img-rounded img-center" style="width: 100%;" src="https://animalso.com/wp-content/uploads/2017/01/Golden-Retriever_6.jpg" data-holder-rendered="true">
+              <img id="chork" src="" height="200" alt="Image preview...">
             <br/><br/>
             <strong>Artist</strong>: <span class="item-artist"></span><br/>
             <strong>Price</strong>: <span class="item-price"></span><br/>
+            <strong>Hash</strong>: <span class="item-hash"></span><br/>
             <button class="btn btn-default btn-adopt" type="button" data-id="0">Buy</button>
           </div>
         </div>
@@ -51,6 +55,8 @@
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://unpkg.com/ipfs/dist/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/web3.min.js"></script>
