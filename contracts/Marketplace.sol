@@ -6,6 +6,7 @@ contract Marketplace {
         uint id;
         address uploader;
         string name;
+        string price;
         string hash;
     }
 
@@ -15,19 +16,20 @@ contract Marketplace {
         uint[] items;
     }
 
-    /*struct buyer {
+    struct buyer {
         bool init;
         address addr;
-        string[] hashes;
-    }*/
+        uint[] items;
+    }
 
     uint public counter = 0;
     mapping(uint => item) public items;
     mapping(address => seller) public sellers;
+    mapping(address => buyer) public buyers;
 
-    function add(string memory _name, string memory _hash) public {
+    function add(string memory _name, string memory _price, string memory _hash) public {
         counter++;
-        items[counter] = item(counter, msg.sender, _name, _hash);
+        items[counter] = item(counter, msg.sender, _name, _price, _hash);
         if (sellers[msg.sender].init) {
         
         } else {
@@ -59,12 +61,21 @@ contract Marketplace {
     } 
 
     //buyer
-    function buy(address payable _to, uint _price) public payable returns(uint) {
-        
-        require(msg.value >= (_price*10**18));
+    function buy(address payable _to, uint _id, uint _price) public payable returns(uint) {
+       require(msg.value >= _price); 
         _to.transfer(msg.value);
+        if (!buyers[msg.sender].init) {
+            uint[] memory transactions;
+            buyers[msg.sender] = buyer(true, msg.sender, transactions);
+        }
+        buyers[msg.sender].items.push(_id);
         return msg.value;
     }
+
+    function searchByBuyer(address _addr) public view returns(uint[] memory) {
+        return buyers[_addr].items;
+    }
+
 
     function getBalance(address _addr) public view returns(uint) {
         return address(_addr).balance / (10**18);

@@ -3,23 +3,6 @@ App = {
   contracts: {},
 
   init: async function() {
-    // Load pets.
-    /*$.getJSON('../pets.json', function(data) {
-      var petsRow = $('#petsRow');
-      var petTemplate = $('#petTemplate');
-
-      for (i = 0; i < data.length; i ++) {
-        petTemplate.find('.panel-title').text(data[i].name);
-        petTemplate.find('img').attr('src', data[i].picture);
-        petTemplate.find('.pet-breed').text(data[i].breed);
-        petTemplate.find('.pet-age').text(data[i].age);
-        petTemplate.find('.pet-location').text(data[i].location);
-        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
-
-        petsRow.append(petTemplate.html());
-      }
-    });*/
-
     return await App.initWeb3();
   },
 
@@ -72,22 +55,26 @@ App = {
                             itemTemplate.find('img').attr('id', "image" + item[0]);
                             itemTemplate.find('.panel-title').text(item[2]);
                             itemTemplate.find('.item-artist').text(item[1]);
-                            itemTemplate.find('.item-hash').text(item[3]);
+                            itemTemplate.find('.item-price').text(item[3]);
+                            itemTemplate.find('.item-hash').text(item[4]);
                             itemTemplate.find('.btn-adopt').attr('data-id', item[0]);
                             feedRow.append(itemTemplate.html());
-                            App.downloadImage(item[3], item[0]);
+                            App.downloadImage(item[4], item[0]);
                         })
                     }
                 }
             })
             $(document).on('click', '.btn-adopt', App.handlePurchase);
+            //$(document).on('click', '#submit-item', App.uploadImage);
         })
     },
 
     handlePurchase: function() {
         event.preventDefault();
         var itemId = parseInt($(event.target).data('id'));
-        console.log(itemId);
+        marketplaceInstance.items(itemId).then(function(item) {
+            marketplaceInstance.buy(item[1], itemId, item[3], {value:item[3]} );
+        })
     },
 
     downloadImage: function(hash, id) {
@@ -105,8 +92,11 @@ App = {
     },
 
     uploadImage: function () {
-        var preview = document.querySelector('#upload-preview');
+        event.preventDefault();
+        var name = document.querySelector("input[name$='name']").value;
+        var price = document.querySelector("input[name$='price']").value;
         var file = document.querySelector('input[type=file]').files[0]; //sames as here
+        var preview = document.querySelector('#upload-preview');
         var reader = new FileReader();
         var path;
         reader.addEventListener("load", function () {
@@ -118,8 +108,7 @@ App = {
                         throw err
                     } else {
                         path = hash[0].path;
-                        preview.src = reader.result;
-                        marketplaceInstance.add(Math.random().toString(36).substring(7), path);
+                        marketplaceInstance.add(name, (price*10**18).toString(), path);
                     }
                 });
             });
@@ -128,6 +117,19 @@ App = {
             reader.readAsDataURL(file); //reads the data as a URL
         }
     },
+
+    previewImage: function() {
+        var file = document.querySelector('input[type=file]').files[0]; //sames as here
+        var preview = document.querySelector('#upload-preview');
+        var reader = new FileReader();
+        reader.addEventListener("load", function () {
+            preview.src = reader.result;
+        });
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+        return reader;
+    }
 
     /*bindEvents: function() {
         $(document).on('click', '.btn-adopt', App.handleAdopt);
