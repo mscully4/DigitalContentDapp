@@ -47,45 +47,66 @@ App = {
 
         App.contracts.Marketplace.deployed().then(function(instance) {
             marketplaceInstance = instance;
-            //load the sellers feed
-            marketplaceInstance.searchBySeller(App.account).then(function(sellerFeed) {
-                const node = new window.Ipfs();
-                var feedRow = $("#feedRow");
-                for (i=0; i<sellerFeed.length; ++i) {
-                    marketplaceInstance.items(sellerFeed[i].toNumber()).then(function(item) {
+            App.loadFeed();
+        });
+
+        App.listenForEvents();
+    },
+     
+    listenForEvents: function() {
+        $("#nav-sellers").click(function() {
+            $("#feedRow").empty();
+            App.loadSellerFeed();
+            
+        })
+
+        $("#nav-buyers").click(function() {
+            $("#feedRow").empty();
+            App.loadFeed();
+        })
+
+        $(document).on("click", ".btn-buy", function() {
+            App.handlePurchase();
+        })
+    },
+
+    loadSellerFeed: function() {        
+        marketplaceInstance.searchBySeller(App.account).then(function(sellerFeed) {
+            const node = new window.Ipfs();
+            var feedRow = $("#feedRow");
+            for (i=0; i<sellerFeed.length; ++i) {
+                marketplaceInstance.items(sellerFeed[i].toNumber()).then(function(item) {
+                    var itemTemplate = $('#itemTemplate');
+                    itemTemplate.find('img').attr('id', "image" + item[0]);
+                    itemTemplate.find('.panel-title').text(item[2]);
+                    itemTemplate.find('.panel-artist').text(item[1]);
+                    itemTemplate.find('.panel-price').text(web3.fromWei(item[3], "ether") + " Ether");
+                    itemTemplate.find('.btn-buy').attr('data-id', item[0]);
+                    feedRow.append(itemTemplate.html());
+                    App.downloadImage(item[4], item[0]);
+                })
+            }   
+        })
+    },
+
+    loadFeed: function() {
+        marketplaceInstance.counter().then(function(feedSize) {
+            const node = new window.Ipfs();
+            var feedRow = $('#feedRow');
+            if (feedSize < 12) {
+                for (i=0; i<feedSize; ++i) {
+                    marketplaceInstance.items(i+1).then(function(item) {
                         var itemTemplate = $('#itemTemplate');
                         itemTemplate.find('img').attr('id', "image" + item[0]);
                         itemTemplate.find('.panel-title').text(item[2]);
                         itemTemplate.find('.panel-artist').text(item[1]);
-                        itemTemplate.find('.panel-price').text(web3.fromWei(item[3], "ether") + " Ether");
+                        itemTemplate.find('.panel-price').text(item[3]);
                         itemTemplate.find('.btn-buy').attr('data-id', item[0]);
                         feedRow.append(itemTemplate.html());
                         App.downloadImage(item[4], item[0]);
                     })
-                }   
-            })
-
-            // Load feed
-            /*marketplaceInstance.counter().then(function(feedSize) {
-                const node = new window.Ipfs();
-                var feedRow = $('#feedRow');
-                if (feedSize < 12) {
-                    for (i=0; i<feedSize; ++i) {
-                        marketplaceInstance.items(i+1).then(function(item) {
-                            var itemTemplate = $('#itemTemplate');
-                            itemTemplate.find('img').attr('id', "image" + item[0]);
-                            itemTemplate.find('.panel-title').text(item[2]);
-                            itemTemplate.find('.item-artist').text(item[1]);
-                            itemTemplate.find('.item-price').text(item[3]);
-                            itemTemplate.find('.item-hash').text(item[4]);
-                            itemTemplate.find('.btn-buy').attr('data-id', item[0]);
-                            feedRow.append(itemTemplate.html());
-                            App.downloadImage(item[4], item[0]);
-                        })
-                    }
                 }
-            })
-            $(document).on('click', '.btn-adopt', App.handlePurchase);*/
+            }
         })
     },
 

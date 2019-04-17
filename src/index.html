@@ -22,50 +22,62 @@
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-push-2">
           <h1 class="text-center">Our Digital Content Marketplace</h1>
-          <hr/>
-          <br/>
         </div>
       </div>
+    </div>
 
-      <div id="feedRow" class="row">
-        <!-- PETS LOAD HERE -->
-      </div>
-    </div>
     <div>
-        <form>
-            Name: <input name="name"/><br>
-            Price: <input name="price"/><br>
-            <input type="file" onchange="App.previewImage()"/><br>
-            <img id="upload-preview" src="" height="200" alt="Image preview...">
-            <button type="submit" id="submit-item" onClick="App.uploadImage()">Submit</button>
-        <form>
+        <h3 class="welcome">Welcome <b id="address"></b>!<h3>
     </div>
+
+    <div class="navigation">
+        <button type="button nav-home" class="btn btn-primary">Home</button>
+        <button type="button" id="nav-buyers" class="btn btn-primary">Buyers</button>
+        <button type="button" id="nav-sellers" class="btn btn-primary">sellers</button>
+    </div>
+
+    <div id="feedRow" class="row"></div>
+    
     <div id="itemTemplate" style="display:none;">
       <div class="col-sm-6 col-md-4 col-lg-3">
-        <div class="panel panel-default panel-pet">
+        <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title"></h3>
           </div>
           <div class="panel-body">
-              <img id="chork" src="" height="200" alt="Image preview...">
-            <br/><br/>
-            <strong>Artist</strong>: <span class="item-artist"></span><br/>
-            <strong>Price</strong>: <span class="item-price"></span><br/>
-            <strong>Hash</strong>: <span class="item-hash"></span><br/>
-            <button class="btn btn-default btn-adopt" type="button" data-id="0">Buy</button>
+            <img class="panel-image" src="" height="200" alt="Image preview..."><br>
+            <strong>Artist:</strong><p class="panel-artist"></p><br>
+            <strong>Price:</strong><p class="panel-price"></p><br>
+            <button class="btn btn-default btn-buy" type="button" data-id="0">Buy</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://unpkg.com/ipfs/dist/index.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/web3.min.js"></script>
-    <script src="js/truffle-contract.js"></script>
-    <script src="js/app.js"></script>
+    <div>
+        <h1 class="upload-title">Upload Another Piece of Art</h1>
+    </div>
+
+    <div class="upload-form">
+      <form>
+        <div class="upload-form-row"><p class="upload-input-labels">Name:  </p><input class="upload-input" name="name"/></div><br>
+        <div class="upload-form-row"><p class="upload-input-labels">Price: </p><input class="upload-input" name="price"/></div><br>
+        <div><input class="upload-input" type="file" onchange="App.previewImage()"/></div><br>
+        <img id="upload-image-preview" src="">
+        <button type="submit" id="submit-item" onClick="App.uploadImage()">Submit</button>
+      <form>
+    </div>
+    <div class="box">
+    </div>
   </body>
+  <link href="css/bootstrap.min.css" rel="stylesheet">    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <link href="css/style.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://unpkg.com/ipfs/dist/index.min.js"></script>
+  <script src="js/bundle.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/web3.min.js"></script>
+  <script src="js/truffle-contract.js"></script>
+  <!--<script src="js/app.js"></script>-->
 </html>
