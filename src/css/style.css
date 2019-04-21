@@ -1,0 +1,79 @@
+.welcome {
+    text-align: center;
+}
+
+.navigation {
+    margin: 0 auto;
+    margin-bottom: 50px;
+    width: fit-content;
+}
+
+.feed-type {
+    text-align: center;
+}
+
+#feedRow {
+    margin: 20px 0;
+}
+
+/*Item Styles*/
+.panel {
+    width: 100%;
+}
+
+.panel-title {
+    text-align:center;
+}
+
+.panel-artist {
+    word-wrap: break-word;
+}
+
+.panel-image {
+    margin: auto;
+    display: block;
+}
+
+/*Upload Form*/
+.upload-title {
+    text-align: center;
+}
+
+.upload-form {
+    margin: auto;
+}
+
+.upload-form-row {
+    text-align: center;
+}
+
+.upload-input {
+    margin: auto;
+}
+
+.upload-input-labels {
+    display: inline-block;
+    width: 100px;
+}
+
+.upload-input {
+}
+
+#upload-image-preview {
+    margin: auto;
+    display: block;
+    height: 400px;
+}
+
+#submit-item {
+    margin: 10px auto;
+    display: none;
+}
+
+/*Utilities*/
+.box {
+    width: 100%;
+    height: 200px;
+}
+
+

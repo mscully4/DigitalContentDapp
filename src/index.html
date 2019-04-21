@@ -29,13 +29,12 @@
     <div>
         <h3 class="welcome">Welcome <b id="address"></b>!<h3>
     </div>
-
+    <div><h1 class="feed-type">Home</h1></div>
     <div class="navigation">
-        <button type="button nav-home" class="btn btn-primary">Home</button>
+        <button type="button" id="nav-home" class="btn btn-primary">Home</button>
         <button type="button" id="nav-buyers" class="btn btn-primary">Buyers</button>
-        <button type="button" id="nav-sellers" class="btn btn-primary">sellers</button>
+        <button type="button" id="nav-sellers" class="btn btn-primary">Sellers</button>
     </div>
-
     <div id="feedRow" class="row"></div>
     
     <div id="itemTemplate" style="display:none;">
@@ -54,11 +53,11 @@
       </div>
     </div>
 
-    <div>
-        <h1 class="upload-title">Upload Another Piece of Art</h1>
-    </div>
 
     <div class="upload-form">
+      <div>
+        <h1 class="upload-title">Upload Another Piece of Art</h1>
+      </div>
       <form>
         <div class="upload-form-row"><p class="upload-input-labels">Name:  </p><input class="upload-input" name="name"/></div><br>
         <div class="upload-form-row"><p class="upload-input-labels">Price: </p><input class="upload-input" name="price"/></div><br>
