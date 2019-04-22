@@ -8,6 +8,12 @@
     width: fit-content;
 }
 
+.search {
+    margin: auto;
+    display: block;
+    width: fit-content;
+}
+
 .feed-type {
     text-align: center;
 }

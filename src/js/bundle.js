@@ -49,22 +49,23 @@ App = {
             marketplaceInstance = instance;
             App.loadFeed();
             $(".upload-form").hide();
+            App.listenForEvents();
         });
-
-        App.listenForEvents();
     },
      
     listenForEvents: function() {
         $("#nav-sellers").click(function() {
             $("#feedRow").empty();
-            App.loadSellerFeed();
+            App.loadSellerFeed(App.account);
             $(".upload-form").show(); 
+            $(".search").hide();
             $(".feed-type").text("Your Art For Sale")
         })
 
         $("#nav-buyers").click(function() {
             $("#feedRow").empty();
             $(".upload-form").hide(); 
+            $(".search").hide();
             App.loadBuyerFeed();
             $(".feed-type").text("Your Purchases")
         })
@@ -72,8 +73,26 @@ App = {
         $("#nav-home").click(function() {
             $("#feedRow").empty();
             $(".upload-form").hide(); 
+            $(".search").show();
             App.loadFeed();
             $(".feed-type").text("Home")
+        })
+
+        $("#search-button").click(function() {
+            var address = $("#search-bar").val();
+            $("#feedRow").empty();
+            $(".upload-form").hide(); 
+            App.loadSellerFeed(address);
+            $(".feed-type").text("Searching...")
+        })
+
+        marketplaceInstance.Upload().watch(function(error, result) {
+            if (error) {
+                console.log(result);
+            } else {
+                $("#feedRow").empty();
+                App.loadSellerFeed(App.account);
+            }
         })
 
         $(document).on("click", ".btn-buy", function() {
@@ -81,8 +100,9 @@ App = {
         })
     },
 
-    loadSellerFeed: function() {        
-        marketplaceInstance.searchBySeller(App.account).then(function(sellerFeed) {
+    loadSellerFeed: function(address) {
+        console.log("Address: ", address);
+        marketplaceInstance.searchBySeller(address).then(function(sellerFeed) {
             const node = new window.Ipfs();
             var feedRow = $("#feedRow");
             for (i=0; i<sellerFeed.length; ++i) {
@@ -203,21 +223,7 @@ App = {
             $("#submit-item").css("display", "block");
         }
         return reader;
-    }
-
-    /*bindEvents: function() {
-        $(document).on('click', '.btn-adopt', App.handleAdopt);
-    },*/
-
-/*  markAdopted: function(adopters, account) {
-  },*/
-
-  /*handleAdopt: function(event) {
-    event.preventDefault();
-
-    var petId = parseInt($(event.target).data('id'));
-  }*/
-
+    },
 };
 
 $(function() {

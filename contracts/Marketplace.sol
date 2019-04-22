@@ -27,16 +27,17 @@ contract Marketplace {
     mapping(address => seller) public sellers;
     mapping(address => buyer) public buyers;
 
+    event Upload(uint counter);
+
     function add(string memory _name, string memory _price, string memory _hash) public {
         counter++;
         items[counter] = item(counter, msg.sender, _name, _price, _hash);
-        if (sellers[msg.sender].init) {
-        
-        } else {
+        if (!sellers[msg.sender].init) {
             uint[] memory transactions;
             sellers[msg.sender] = seller(true, msg.sender, transactions); 
         }
         sellers[msg.sender].items.push(counter);
+        emit Upload(counter);
     }
 
     function countUploads(address _addr) public view returns(uint) {
